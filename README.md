@@ -61,94 +61,126 @@ Dari hasil uji tersebut, saya setuju dengan Klaim
 Hasil menunjukkan `p-value < 0.05`, sehingga H0 ditolak. 
 Mean jarak tempuh ialah lebih besar dari 20000. Sehingga klaim masih dapat dipertahankan.
 
-# No.3
+---
+## Soal 3
 <img width="328" alt="image" src="https://user-images.githubusercontent.com/80145586/170882505-a1c4e346-79cd-42b9-8417-b35f4d102108.png">
 
-# 3.A: H0 dan H1
+### 3.A: H0 dan H1
 * H0: mean(Bandung) <= mean(Bali)
 * H1: mean(Bandung)  > mean(Bali)
 
-# 3.B
+### 3.B
 <img width="520" alt="image" src="https://user-images.githubusercontent.com/80145586/170882518-c8b527f4-6750-4a8e-a6e7-5ef951d1ff70.png">
 
-# 3.C
+### 3.C
 <img width="522" alt="image" src="https://user-images.githubusercontent.com/80145586/170882533-6e5f40e5-bb44-4874-ad91-00429612e0d2.png">
 Didapatkan hasil nilai-t = 1.9267, p-value = 0.03024
 
-# 3.D
+### 3.D
 <img width="307" alt="image" src="https://user-images.githubusercontent.com/80145586/170882749-d9c86818-94ca-4f91-89a6-b22acd4cafda.png">
 Didapat Nilai kritis `2.919986`.
 
-# 3.E 
+### 3.E 
 Keputusan yang diambil ialah H0 akan ditolak jika hasil uji menghasilkan nilai **lebih kecil** dari nilai kritis.
 
-# 3.F
+### 3.F
 Hasil nilai t uji `(1.9267)` **lebih kecil** dari Nilai kritis `(2.919986)`. Sehingga disimpulkan bahwa H0 diterima. Dan mean Bandung lebih kecil atau sama dengan mean Bali.
 
-# No.4
+---
+## Soal 4
+Seorang Peneliti sedang meneliti spesies dari kucing di ITS . Dalam penelitiannya
+ia mengumpulkan data tiga spesies kucing yaitu kucing oren, kucing hitam dan
+kucing putih dengan panjangnya masing-masing.
+* H0: Tidak ada perbedaan panjang antara ketiga spesies atau rata-rata panjangnya sama
+* H1: Ada perbedaan panjang antara ketiga spesies atau rata-rata panjangnya berbeda
+
+Berikut cuplikan dataset
 <img width="123" alt="image" src="https://user-images.githubusercontent.com/80145586/170882940-886033b2-963b-42cd-b201-cc8f9d6c7285.png">
 
-# 4.A
-data$Group = factor(data$Group, labels = c("Kucing Oren","Kucing Hitam","Kucing Putih"))
+### 4.A
+<img width="715" alt="image" src="https://user-images.githubusercontent.com/80145586/170883009-3ffd7300-f267-4885-911a-2ba937118b00.png">
 
-grup1 <- subset(data, Group == "Kucing Oren")
-grup2 <- subset(data, Group == "Kucing Hitam")
-grup3 <- subset(data, Group == "Kucing Putih")
+<img width="719" alt="image" src="https://user-images.githubusercontent.com/80145586/170883036-e25b216f-ff45-4514-84da-b731b57e4c9a.png">
 
-qqnorm(grup1$Length, main = "Plot Q-Q Kucing Oren")
-qqline(grup1$Length)
+<img width="721" alt="image" src="https://user-images.githubusercontent.com/80145586/170883060-564f040b-7263-4194-9ce9-2b1164fe5581.png">
 
-qqnorm(grup2$Length, main = "Plot Q-Q Kucing Hitam")
-qqline(grup2$Length)
+Keberadaan outlier ditandakan dengan adanya titik yang berada jauh dari groupnya. Dalam kasus ini, tidak terlihat ada outlier untuk tiap group.
 
-qqnorm(grup3$Length, main = "Plot Q-Q Kucing Putih")
-qqline(grup3$Length)
+### 4.B
+Keseragaman varians untuk dua grup atau lebih, dapat dicek dengan menggunakan tes bartlett.
+```bartlett.test(Length ~ Group, data = data)```
+* H0: variance sama
+* H1: variance berbeda-beda
 
-# 4.B
-bartlett.test(Length ~ Group, data = data)
+<img width="405" alt="image" src="https://user-images.githubusercontent.com/80145586/170883196-dd5475a7-ccd6-4e8e-aed5-1c0b619f25e5.png">
 
-# 4.C
+Hasil menunjukkan `p-value > 0.05`, menunjukkan tidak ada bukti yang cukup untuk menolak H0. Hal ini berarti ketiga group memiliki varians yang seragam.
+
+### 4.C
+Membuat model linier.
+```R
 model <- lm(Length ~ Group, data = data)
+```
+Analisis varians menggunakan code berikut
+```R
 anova(model)
+```
+<img width="381" alt="image" src="https://user-images.githubusercontent.com/80145586/170883480-7a82597c-3952-430d-b8b8-58d7fd308c7d.png">
 
-plot(model, main = "Model 1")
+`plot(model, main = "Model 1")`
+<img width="718" alt="image" src="https://user-images.githubusercontent.com/80145586/170883613-4426011b-fbb8-4965-8a68-7da9ce918ec2.png">
 
-# 4.E
-TukeyHSD(aov(Length ~ factor(Group), data = data))
+### 4.D
+Hasil menunjukkan `p-value > 0.05`, menunjukkan tidak ada bukti yang cukup untuk menolak H0. Hal ini berarti ketiga group memiliki varians yang seragam.
 
-# 4.F
-ggboxplot(data, x = "Group", y = "Length",
-          color = "Group", palette = c("#FFA500", "#000000", "#00AFBB"),
-          ylab = "Weight", xlab = "Group")
+### 4.E
+<img width="557" alt="image" src="https://user-images.githubusercontent.com/80145586/170883796-5e061ab4-dc0a-4bd5-ac3d-008ce6188916.png">
 
-# No.5
-GTL  <- read.csv(url("https://drive.google.com/uc?id=1aLUOdw_LVJq6VQrQEkuQhZ8FW43FemTJ&export=download")) 
-head(GTL)
+### 4.F
+<img width="745" alt="image" src="https://user-images.githubusercontent.com/80145586/170883808-3768a9da-da3d-4ce5-a74f-ef93861af7f3.png">
+Hasil Hitam-Oren dan Putih-Hitam menunjukkan `p-value < 0.05`, yang menunjukkan H0 ditolak. Sedangkan, Oren-Putih menunjukkan `p-value > 0.05` yang berarti menerima H0.
+Hal ini dapat disimpulkan bahwa Kucing-Oren memiliki perbedaan panjang dibanding kedua group lainnya. Sedangkan Kucing-Hitam dan Kucing-Putih memiliki panjang yang seragam.
 
-# 5.A
-qplot(x = Temp, y = Light, geom = "point",
-      data = GTL) +
-  facet_grid(.~Glass, labeller = label_both)
+---
+## Soal 5
+Data yang digunakan merupakan hasil eksperimen yang dilakukan untuk
+mengetahui pengaruh suhu operasi (100˚C, 125˚C dan 150˚C) dan tiga jenis kaca
+pelat muka (A, B dan C) pada keluaran cahaya tabung osiloskop. Percobaan
+dilakukan sebanyak 27 kali berikut cuplikan data
 
-# 5.B
-GTL$Glass <- as.factor(GTL$Glass)
-GTL$Temp_Factor <- as.factor(GTL$Temp)
+<img width="154" alt="image" src="https://user-images.githubusercontent.com/80145586/170884125-d3a323b5-fd79-41b1-a587-9883197f2c0c.png">
+
+### 5.A
+Visualisasi data
+
+<img width="750" alt="image" src="https://user-images.githubusercontent.com/80145586/170884138-1b4d3646-3b85-4dfd-a80d-e2452f2a51dc.png">
+
+### 5.B
+Melakukan pengetesan anova dua arah.
+```R
 anova <- aov(Light ~ Glass*Temp_Factor,
              data = GTL)
 summary(anova)
+```
 
-# 5.C
-summary.table <- group_by(GTL, Glass, Temp) 
-%>%
-  summarise(
-    mean = mean(Light), 
-    sd = sd(Light)) 
-%>%
-  arrange(desc(mean))
+<img width="525" alt="image" src="https://user-images.githubusercontent.com/80145586/170884285-b8bb3cff-2f9b-4291-92b6-e491f39bddc6.png">
 
-print(summary.table)
 
-# 5.D
+### 5.C
+Menampilkan tabel ringkasan dengan mean dan standar deviasi keluaran cahaya untuk
+setiap perlakuan (kombinasi kaca pelat muka dan suhu operasi)
+
+<img width="255" alt="image" src="https://user-images.githubusercontent.com/80145586/170884333-fa15bd5a-2a84-488e-ad5a-f2ab03da4693.png">
+
+### 5.D
+Melakukan uji Tukey
+```R
 anova <- aov(Light ~ Glass*Temp_Factor,
              data = GTL)
 print(TukeyHSD(anova))
+```
+<img width="485" alt="image" src="https://user-images.githubusercontent.com/80145586/170884354-15e14a0a-ab29-46ef-ac07-8ca6814f4c68.png">
+<img width="389" alt="image" src="https://user-images.githubusercontent.com/80145586/170884367-eef068a7-b4ae-4b4b-9521-0fd9c0e0d937.png">
+<img width="466" alt="image" src="https://user-images.githubusercontent.com/80145586/170884372-0e1d608b-4562-4c33-b1f4-309edd423681.png">
+<img width="464" alt="image" src="https://user-images.githubusercontent.com/80145586/170884387-e25f464b-faec-4b02-8118-3cf01b5350b6.png">
+<img width="461" alt="image" src="https://user-images.githubusercontent.com/80145586/170884397-9d0eb6c5-756d-434d-89f5-9c9a59f56e9a.png">
