@@ -18,11 +18,11 @@ standardev = sd(diff)
 standardev
 
 #1.b
-dbar = mean(df$diff)
+dbar = mean(diff)
 mu = 0
 n = 9
 
-t = (dbar - mu)/(sd/sqrt(n))
+t = (dbar - mu)/(standardev/sqrt(n))
 pval = 2*pt(-abs(t), df=n-1)
 pval
 
